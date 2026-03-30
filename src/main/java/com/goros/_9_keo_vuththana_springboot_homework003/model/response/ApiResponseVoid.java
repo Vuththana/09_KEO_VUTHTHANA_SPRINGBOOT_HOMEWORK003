@@ -1,0 +1,21 @@
+package com.goros._9_keo_vuththana_springboot_homework003.model.response;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatus;
+
+import java.time.Instant;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class ApiResponseVoid {
+    private Boolean success;
+    private HttpStatus status;
+    private String message;
+    private Instant timestamp;
+}

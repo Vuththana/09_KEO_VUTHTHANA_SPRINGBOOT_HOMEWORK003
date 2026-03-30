@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface VenueRepository {
-    @Results(id = "venueMapper", values = {
+    @Results(id = "venueMapper", value = {
             @Result(property = "venueId", column = "venue_id"),
             @Result(property = "venueName", column = "venue_name")
     })
@@ -19,23 +19,25 @@ public interface VenueRepository {
 
     @ResultMap("venueMapper")
     @Select("""
-    SELECT * FROM venues WHERE venue_id #{venueId}
+    SELECT * FROM venues WHERE venue_id = #{venueId}
     """)
-    Venue getVenueById(@Param("venueId") Integer venueId);
+    Venue getVenueById(Integer venueId);
 
+    @ResultMap("venueMapper")
     @Select("""
-    INSERT INTO venues VALUES (default, #{req.venueName}, #{req.location})
+    INSERT INTO venues VALUES (default, #{req.venueName}, #{req.location}) RETURNING *
     """)
     Venue saveVenue(@Param("req") VenueRequest venueRequest);
 
+    @ResultMap("venueMapper")
     @Delete("""
     DELETE FROM venues WHERE venue_id = #{venueId};
     """)
-    int deleteVenueById(@Param("venueId") Integer valueId);
+    int deleteVenueById(Integer venueId);
 
+    @ResultMap("venueMapper")
     @Update("""
     UPDATE venues SET venue_id = #{req.venueId}, venueName = #{req.venueName}, location = #{req.location} WHERE venue_id = #{venueId};
     """)
-    int updateVenueById(@Param("req") VenueRequest venueRequest ,@Param("venueId") Integer valueId);
-
+    int updateVenueById(@Param("req") VenueRequest venueRequest, Integer venueId);
 }

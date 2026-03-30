@@ -1,5 +1,6 @@
 package com.goros._9_keo_vuththana_springboot_homework003.service.impl;
 
+import com.goros._9_keo_vuththana_springboot_homework003.exception.NotFoundException;
 import com.goros._9_keo_vuththana_springboot_homework003.model.entity.Venue;
 import com.goros._9_keo_vuththana_springboot_homework003.model.request.VenueRequest;
 import com.goros._9_keo_vuththana_springboot_homework003.repository.VenueRepository;
@@ -24,7 +25,11 @@ public class VenueServiceImpl implements VenueService {
 
     @Override
     public Venue getVenueById(Integer venueId) {
-        return venueRepository.getVenueById(venueId);
+        Venue venue = venueRepository.getVenueById(venueId);
+        if(venue == null) {
+            throw new NotFoundException("Venue with " + venueId + " not found.");
+        }
+        return venue;
     }
 
     @Override
@@ -34,11 +39,19 @@ public class VenueServiceImpl implements VenueService {
 
     @Override
     public int deleteVenueById(Integer venueId) {
+        Venue venue = venueRepository.getVenueById(venueId);
+        if(venue == null) {
+            throw new NotFoundException("Venue with " + venueId + " not found.");
+        }
         return venueRepository.deleteVenueById(venueId);
     }
 
     @Override
     public int updateVenueById(VenueRequest venueRequest, Integer venueId) {
+        Venue venue = venueRepository.getVenueById(venueId);
+        if(venue == null) {
+            throw new NotFoundException("Venue with " + venueId + " not found.");
+        }
         return venueRepository.updateVenueById(venueRequest, venueId);
     }
 }

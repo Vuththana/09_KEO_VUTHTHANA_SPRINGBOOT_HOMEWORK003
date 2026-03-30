@@ -7,7 +7,7 @@ CREATE TABLE venues (
 CREATE TABLE attendees (
     attendee_id SERIAL PRIMARY KEY,
     attendee_name VARCHAR(200) NOT NULL,
-    email VARCHAR(200) NOT NULL
+    email VARCHAR(200) NOT NULL UNIQUE
 );
 
 CREATE TABLE events (
