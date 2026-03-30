@@ -6,9 +6,11 @@ import com.goros._9_keo_vuththana_springboot_homework003.model.response.ApiRespo
 import com.goros._9_keo_vuththana_springboot_homework003.model.response.ApiResponseVoid;
 import com.goros._9_keo_vuththana_springboot_homework003.service.AttendeeService;
 import com.goros._9_keo_vuththana_springboot_homework003.utils.ResponseUtil;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/attendees/")
+@Validated
 public class AttendeeController {
     private final AttendeeService attendeeService;
     @GetMapping
@@ -33,7 +36,7 @@ public class AttendeeController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Attendee>> saveAttendee(@RequestBody AttendeeRequest attendeeRequest) {
+    public ResponseEntity<ApiResponse<Attendee>> saveAttendee(@Valid @RequestBody AttendeeRequest attendeeRequest) {
         Attendee attendee = attendeeService.saveAttendee(attendeeRequest);
         ApiResponse<Attendee> response = ResponseUtil.success(HttpStatus.CREATED,"Attendee successfully created", attendee);
         return ResponseEntity.status(response.getStatus()).body(response);
